@@ -32,12 +32,30 @@
           <h3>商品推荐</h3>
           <swiperDefalute :swiper="swiperData"></swiperDefalute>
       </div>
+      <floor :floorData="floor1" :floorTitle="floor1Name"></floor>
+      <floor :floorData="floor2" :floorTitle="floor2Name"></floor>
+      <floor :floorData="floor3" :floorTitle="floor3Name"></floor>
+      <!-- 下拉加载 -->
+      <div>
+        <h3>最新商品</h3>
+         <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <list :list="list"></list>
+      </van-list>
+      </div>
+     
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import swiperDefalute from '../swiper/swiperDefalute'
+import swiperDefalute from '@/components/swiper/swiperDefalute'
+import floor from '@/components/floor/floor'
+import list from '@/components/list/list'
 export default {
   data () {
     return {
@@ -45,10 +63,20 @@ export default {
       bannerPicArray:[],
       category:[],
       addBanner:null,
-      swiperData:[]
+      swiperData:[],
+      floor1:[],
+      floor2:[],
+      floor3:[],
+      floor1Name:'',
+      floor2Name:'',
+      floor3Name:'',
+      list: [],
+      loading: false,
+      finished: false
+
     }
   },
-  components:{swiperDefalute},
+  components:{swiperDefalute,floor,list},
   created() {
     axios({
       url:'https://www.easy-mock.com/mock/5c45ceb40714c82b4138334e/example/index',
@@ -56,15 +84,33 @@ export default {
     })
     .then(res => {
       console.log(res)
-      let {category,advertesPicture,slides,hotGoods} = res.data.data;
+      let {recommend,category,advertesPicture,slides,hotGoods,floor1,floor2,floor3,floorName} = res.data.data;
       this.category = category;
       this.addBanner = advertesPicture.PICTURE_ADDRESS;
       this.bannerPicArray = slides;
       this.swiperData = hotGoods;
+      this.floor1 = floor1;
+      this.floor2 = floor2;
+      this.floor3 = floor3;
+      this.floor1Name = floorName.floor1;
+      this.floor2Name = floorName.floor2;
+      this.floor3Name = floorName.floor3;
+      this.list = recommend;
     })
     .catch(error => {
       console.log(error)
     })
+  },
+  methods: {
+    onLoad() {
+      // 异步更新数据
+        // 加载状态结束
+        this.loading = false;
+        // 数据全部加载完成
+        if (this.list.length = this.list.length) {
+          this.finished = true;
+        }
+    }
   }
 }
 </script>

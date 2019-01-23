@@ -6,7 +6,7 @@
             <div>
               <img :src="item.image" width="100%" height="100%">
               <span>{{item.name}}</span>
-              <p>￥{{item.price}}</p>
+              <p>{{item.price | myFilite}}</p>
             </div>
           </swiper-slide>
       </swiper>  
@@ -15,20 +15,23 @@
 <script>
     import 'swiper/dist/css/swiper.css' 
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
+    import {toMoney} from '@/components/filte.js'
     export default {
         components:{swiper,swiperSlide},
         data() {
             return {
                swiperOption: {  
-                    // pagination: {
-                    //   el:'.swiper-pagination'
-                    // },  
                     slidesPerView: 3,   
                     paginationClickable: true,
                 }
             }
         },
-        props:['swiper']
+        props:['swiper'],
+        filters:{
+            myFilite(val) {
+                return '￥' + toMoney(val);
+            }
+        }
 
     }
 </script>
