@@ -3,12 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import {Button , Row , Col, Swipe, SwipeItem, Lazyload, List} from 'vant';
+import {Button , Row , Col, Swipe, SwipeItem, Lazyload, List, Field, Icon, Toast} from 'vant';
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 Vue.use(VueAwesomeSwiper)
 
-Vue.use(Button).use(Row).use(Col).use(Swipe).use(SwipeItem).use(Lazyload).use(List);
+Vue.use(Button).use(Row).use(Col).use(Swipe).use(SwipeItem).use(Lazyload).use(List).use(Field).use(Icon).use(Toast);
 
 Vue.config.productionTip = false
 
