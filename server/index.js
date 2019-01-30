@@ -1,26 +1,26 @@
 // 引入koa
 const Koa = require('koa');
-const Router = require('koa-router');
+const app = new Koa();
+// 引入connect
+const {connect, initSchemas} = require('./database/init.js');
+const mongoose = require('mongoose');
 // 引入koa-bodyparser,解析post请求体
 const bodyParser = require('koa-bodyparser');
 // 支持跨域
 const cros = require('koa2-cors');
-// new出实例
-const app = new Koa();
-let router = new Router();
+const Router = require('koa-router');
 // 使用跨域
 app.use(cros());
-// 加载路由中间件
-app.use(router.routes());
-app.use(router.allowedMethods());
+
 app.use(bodyParser());
+// new出实例
+let router = new Router();
 // 引入user路由
 let user = require('./appApi/user.js');
 router.use('/user',user.routes());
-
-// 引入connect
-const {connect, initSchemas} = require('./database/init.js');
-const mongoose = require('mongoose');
+// 加载路由中间件
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 ;(async ()=>{
     await connect();

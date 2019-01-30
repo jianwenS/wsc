@@ -78,6 +78,7 @@
     },
     components: { swiperDefalute, floor, list },
     created() {
+      console.log(url.getShopingMallInfo)
       axios({
         url: url.getShopingMallInfo,
         method: 'get'
@@ -98,7 +99,7 @@
           this.list = recommend;
         })
         .catch(error => {
-          console.log(error)
+          // console.log(error)
         })
     },
     methods: {

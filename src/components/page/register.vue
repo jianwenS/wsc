@@ -4,8 +4,8 @@
     <div class="register_img">
        <img src="../../assets/images/timg.png">
     </div>
-      <van-field required v-model="registerFrom.userName" placeholder="请输入用户名"  icon="clear" @click-icon="userName = ''"/>
-      <van-field required v-model="registerFrom.password" type="password" placeholder="请输入密码" icon="clear" @click-icon="password = ''"/>
+      <van-field required v-model="registerFrom.userName" placeholder="请输入用户名"  icon="clear" @click-icon="registerFrom.userName = ''"/>
+      <van-field required v-model="registerFrom.password" type="password" placeholder="请输入密码" icon="clear" @click-icon="registerFrom.password = ''"/>
       <van-button @click='registerUser' size="large" type="primary">立即注册</van-button>
   </div>
 </template>
@@ -13,6 +13,7 @@
 <script>
   import axios from 'axios'
   import url from '@/api.js'
+  import { Toast } from 'vant'
   export default {
     data() {
       return {
@@ -29,11 +30,15 @@
             method: 'post',
             data:this.registerFrom
         })
-        .then(function(res) {
-          console.log(res);
+        .then((res)=> {
+          if(res.data.code == 200){
+            Toast.success(res.data.message);
+            this.$router.push('/');
+          }
         })
-        .catch(function(err) {
-         console.log(err);
+        .catch((err)=> {
+          console.log(err)
+          Toast.fail('注册失败');
         })
       }
     }
