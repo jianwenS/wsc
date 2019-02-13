@@ -78,13 +78,11 @@
     },
     components: { swiperDefalute, floor, list },
     created() {
-      console.log(url.getShopingMallInfo)
       axios({
         url: url.getShopingMallInfo,
         method: 'get'
       })
         .then(res => {
-          console.log(res)
           let { recommend, category, advertesPicture, slides, hotGoods, floor1, floor2, floor3, floorName } = res.data.data;
           this.category = category;
           this.addBanner = advertesPicture.PICTURE_ADDRESS;

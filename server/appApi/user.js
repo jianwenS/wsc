@@ -27,5 +27,36 @@ router.post('/register',async(ctx)=>{
     	}
     })
 })
+router.post('/login',async(ctx)=>{
+    // 获取密码、用户
+    let {userName,password} = ctx.request.body;
+    console.log(userName,password)
+    // 获取user模型
+    const User = mongoose.model('User');
+    // 查找用户，在比对密码
+    await User.findOne({userName:userName}).exec().then(async(res)=>{
+        if(res){
+            // new出实例
+            let newUser = new User();
+            await newUser.comparePassword(password,res.password)
+            // 返回给前台的比对结果
+            .then((isMatch)=>{
+                ctx.body = {code:200,message:isMatch}
+            })
+            .catch(err=>{
+                ctx.body = {code:500,message:err}
+            })
+        }else{
+            ctx.body={ code:201, message:'用户名不存在'}
+        }
+    })
+    .catch((err)=>{
+        // 失败信息
+        ctx.body = {
+            code:500,
+            message:err
+        }
+    })
+})
 // 导出路由实例
 module.exports = router;

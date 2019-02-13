@@ -3,6 +3,7 @@ const location = 'http://localhost:3000/';
 const URL = {
     getShopingMallInfo: BASEURL + 'index',
     getGoodsInfo: BASEURL + 'getGoodsInfo',
-    register:location+'user/register'
+    register:location+'user/register',
+    login:location+'user/login'
 }
 export default URL;
