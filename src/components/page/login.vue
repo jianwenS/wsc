@@ -15,6 +15,12 @@
   import url from '@/api.js'
   import { Toast } from 'vant'
   export default {
+    created(){
+      if(localStorage.userInfo){
+            Toast.success('您已经登录')
+            this.$router.push('/')
+      }
+    },
     data() {
       return {
         registerFrom:{
@@ -34,6 +40,7 @@
           console.log(res)
           if(res.data.code == 200){
             Toast.success(res.data.message);
+            localStorage.userInfo = {userName:this.userName};
             this.$router.push('/');
           }else if(res.data.code == 201){
             Toast.success(res.data.message);
