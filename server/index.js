@@ -18,6 +18,8 @@ let router = new Router();
 // 引入user路由
 let user = require('./appApi/user.js');
 router.use('/user',user.routes());
+let goods = require('./appApi/goods.js');
+router.use('/goods',goods.routes())
 // 加载路由中间件
 app.use(router.routes());
 app.use(router.allowedMethods());
