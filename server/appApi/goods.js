@@ -45,5 +45,18 @@ router.get('/insertAllCategory',async(ctx)=>{
 	ctx.body="开始导入数据"
 })
 
+// 商品详情数据接口
+router.post('/getDetailGoodsInfo',async(ctx)=>{
+	let goodsId = ctx.request.body.goodsId;
+	console.log(goodsId)
+	const Goods = mongoose.model('Goods');
+	await Goods.findOne({ID:goodsId}).exec()
+	.then(async(res)=>{
+		ctx.body={code:200,message:res}
+	}).catch(err=>{
+		console.log(err)
+		ctx.body={code:500,message:err}
+	})
+})
 
 module.exports = router;

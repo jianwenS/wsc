@@ -2,9 +2,11 @@
     <div>
         <van-row gutter="20">
             <van-col span="12" v-for="(item,index) in list" :key="index" class="goods_info">
-                <img v-lazy="item.image"/>
-                <p>{{item.goodsName}}</p>
-                <p class="red">{{item.mallPrice | money}}</p>
+              <div @click="goGoodsPage(item.goodsId)">
+                    <img v-lazy="item.image"/>
+                    <p>{{item.goodsName}}</p>
+                    <p class="red">{{item.mallPrice | money}}</p>
+               </div>
             </van-col>
         </van-row>
     </div>
@@ -20,6 +22,11 @@
         filters:{
             money(val) {
                 return '￥' + toMoney(val);
+            }
+        },
+        methods:{
+            goGoodsPage(goodsId) {
+                this.$router.push({name:'Goods',query:{goodsId:goodsId}})
             }
         }
     }

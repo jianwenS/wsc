@@ -4,6 +4,7 @@ const URL = {
     getShopingMallInfo: BASEURL + 'index',
     getGoodsInfo: BASEURL + 'getGoodsInfo',
     register:location+'user/register',
-    login:location+'user/login'
+    login:location+'user/login',
+    DetailGoodsInfo:location+'goods/getDetailGoodsInfo'
 }
 export default URL;
