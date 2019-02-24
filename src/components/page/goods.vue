@@ -11,6 +11,37 @@
         <div class="topimage-div">
             <img :src="goodsInfo.IMAGE1" width="100%"/>
         </div>
+        <div class="goodsInfo">
+            <div class="goods-price">{{goodsInfo.ORI_PRICE | money}}</div>
+            <div class="goods-names">{{goodsInfo.NAME}}</div>
+            <van-tabs class="vat_tab" sticky :swipeable="true">
+                <van-tab title="商品详情">
+                    <div class="details_good details_van" v-html="goodsInfo.DETAIL"></div>
+                </van-tab>
+                <van-tab class="details_van" title="商品评论">功能制作中······</van-tab>
+            </van-tabs>
+            <van-goods-action>
+                    <van-goods-action-mini-btn
+                      icon="chat-o"
+                      text="客服"
+                      @click="onClickMiniBtn"
+                    />
+                    <van-goods-action-mini-btn
+                      icon="cart-o"
+                      text="购物车"
+                      @click="onClickMiniBtn"
+                    />
+                    <van-goods-action-big-btn
+                      text="加入购物车"
+                      @click="onClickBigBtn"
+                    />
+                    <van-goods-action-big-btn
+                      primary
+                      text="立即购买"
+                      @click="onClickBigBtn"
+                    />
+                  </van-goods-action>
+        </div>
      </div>
   </template>
   
@@ -18,6 +49,7 @@
     import axios from 'axios'
     import url from '@/api.js'
     import { Toast } from 'vant'
+    import {toMoney} from "@/components/filte.js"
     export default {
     created(){
         this.goodsId = this.$route.query.goodsId;
@@ -27,7 +59,8 @@
      data() {
         return {
           goodsId:'',
-          goodsInfo:{}
+          goodsInfo:{},
+          active:'1'
         }
       },
       methods: {
@@ -38,7 +71,8 @@
                   data:{goodsId:this.goodsId}
               })
               .then(res=>{
-                  if(res==200 && res.data) {
+                  console.log(res)
+                  if(res.data.code==200) {
                       this.goodsInfo = res.data.message;
                   } else {
                       Toast('数据获取失败，请重新获取')
@@ -50,11 +84,36 @@
           },
           onClickLeft() {
               this.$router.go(-1);
-          }
+          },
+          onClickMiniBtn() {
+            Toast('点击图标');
+         },
+         onClickBigBtn() {
+            Toast('点击按钮');
+         }
+      },
+      filters:{
+        money(val) {
+              return '￥'+ toMoney(val);
+        }
       }
     }
   </script>
   
   
   <style scoped>
+    .goodsInfo{
+        padding-bottom:3rem;
+    }
+    .goods-price{
+        font-size: 20px;
+        color:red;padding: 0 .5rem;
+        box-sizing: border-box;
+    }
+    .goods-names{font-size: 20px;color:#000000;padding: 0 .5rem;
+        box-sizing: border-box;}
+    .details_good{font-size: 0;}
+    .vat_tab .details_van{
+        margin-top: .5rem;
+    }
   </style>
