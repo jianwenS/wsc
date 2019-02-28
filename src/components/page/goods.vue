@@ -52,8 +52,7 @@
     import {toMoney} from "@/components/filte.js"
     export default {
     created(){
-        this.goodsId = this.$route.query.goodsId;
-        console.log(this.$route)
+        this.goodsId = this.$route.query.goodsId ? this.$route.query.goodsId : this.$route.params.goodsId
         this.getInfo();
     },
      data() {
@@ -89,7 +88,25 @@
             Toast('点击图标');
          },
          onClickBigBtn() {
-            Toast('点击按钮');
+             let cartInfo = localStorage.cartInfo ? JSON.parse(localStorage.cartInfo) : [];
+             console.log(cartInfo)
+             let isHaveGoods = cartInfo.find(cart => cart.goodsId == this.goodsId);
+             console.log(isHaveGoods)
+             if(!isHaveGoods) {
+                 let newGoodsInfo = {
+                     goodsId:this.goodsInfo.ID,
+                     name:this.goodsInfo.NAME,
+                     price:this.goodsInfo.PRESENT_PRICE,
+                     image:this.goodsInfo.IMAGE1,
+                     count:1
+                 }
+                 cartInfo.push(newGoodsInfo);
+                 localStorage.cartInfo = JSON.stringify(cartInfo);
+                 Toast.success('添加成功');
+             }else{
+                Toast.success('已经有此商品');
+             }
+             this.$router.push({name:'Cart'})
          }
       },
       filters:{

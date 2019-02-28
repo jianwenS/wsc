@@ -8,5 +8,6 @@ const URL = {
     DetailGoodsInfo:location+'goods/getDetailGoodsInfo',
     getCategoryList:location+'goods/getCategoryList',//大类商品
     getCategorySubList:location+'goods/getCategorySub',//小类商品
+    getCategoryByCategorySubId:location+'goods/getCategoryByCategorySubId',//分页商品
 }
 export default URL;

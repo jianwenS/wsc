@@ -67,13 +67,11 @@ router.get('/insertAllCategorySub',async(ctx)=>{
 // 商品详情数据接口
 router.post('/getDetailGoodsInfo',async(ctx)=>{
 	let goodsId = ctx.request.body.goodsId;
-	console.log(goodsId)
 	const Goods = mongoose.model('Goods');
 	await Goods.findOne({ID:goodsId}).exec()
 	.then(async(res)=>{
 		ctx.body={code:200,message:res}
 	}).catch(err=>{
-		console.log(err)
 		ctx.body={code:500,message:err}
 	})
 })
@@ -82,8 +80,6 @@ router.get('/getCategoryList',async(ctx)=>{
    try{
 	   const Category = mongoose.model('Category');
 	   let result = await Category.find().exec();
-	   console.log(1)
-	   console.log(result)
 	   ctx.body = {code:200,message:result}
    }catch(err){
 	ctx.body={code:500,message:err}
@@ -97,15 +93,22 @@ router.post('/getCategorySub',async(ctx)=>{
 		let result = await CategorySub.find({MALL_CATEGORY_ID:categoryId}).exec();
 		ctx.body = {code:200,message:result}
 	}catch(err){
-	 ctx.body={code:500,message:err}
+	 	ctx.body={code:500,message:err}
 	}
  })
  //根据小类商品获取商品详情数据接口
 router.post('/getCategoryByCategorySubId',async(ctx)=>{
 	try{
-		let cateorySubId = ctx.request.body.cateorySubId;
+		let categorySubId = ctx.request.body.categorySubId;
+		console.log(categorySubId)
+		let page = ctx.request.body.page;//当前页数
+		console.log(page)
+		let num = 10;//每页显示条数
+		let start = (page-1)*num;
 		const CategorySub = mongoose.model('Goods');
-		let result = await Category.find({SUB_ID:cateorySubId}).exec();
+		let result = await CategorySub.find({SUB_ID:categorySubId})
+        .skip(start) .limit(num).exec()
+		console.log(result)
 		ctx.body = {code:200,message:result}
 	}catch(err){
 	 ctx.body={code:500,message:err}
