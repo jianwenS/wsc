@@ -40,7 +40,7 @@
     <floor :floorData="floor2" :floorTitle="floor2Name"></floor>
     <floor :floorData="floor3" :floorTitle="floor3Name"></floor>
     <!-- 下拉加载 -->
-    <div>
+    <div class="list-footer">
       <h3>最新商品</h3>
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <list :list="list"></list>
@@ -180,5 +180,8 @@
     padding: 0 .3rem;
     border-bottom: 1px solid #cccccc;
     -webkit-box-sizing: border-box;
+  }
+  .list-footer{
+    padding-bottom: 3rem;
   }
 </style>
